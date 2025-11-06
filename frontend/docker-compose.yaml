@@ -1,0 +1,10 @@
+version: '1.0'
+
+services:
+  app:
+    image: ghcr.io/blendnet-ai/lms-frontend-main:latest
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./frontend-env.js:/app/dist/env.js
+    restart: unless-stopped
