@@ -1,0 +1,48 @@
+version: "3"
+services:
+  assessments:
+    build: .
+    platform: linux/amd64
+    ports:
+      - "8000:8000"
+    entrypoint: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/appuser/code
+    working_dir: /appuser/code
+    env_file:
+      - .env
+
+  postgres:
+    image: postgres:16
+    container_name: postgres-assessments
+    volumes:
+      - pgdb_assessments:/var/lib/postgresql/data
+    env_file: .env
+    ports:
+      - 5433:5432
+
+  redis:
+    image: redis:7
+    container_name: redis-assessments
+    restart: unless-stopped
+    env_file: .env
+    command: /bin/sh -c "redis-server --requirepass ${REDIS_PASSWORD}"
+    ports:
+      - 6379:6379
+
+  celery:
+    build: .
+    platform: linux/amd64
+    container_name: celery-assessments
+    working_dir: /appuser/code
+    volumes:
+      - .:/appuser/code
+    env_file:
+      - .env
+    entrypoint: python -m celery -A evaluation.celery worker -l debug -Q default,evaluation_queue
+    depends_on:
+      - redis
+      - postgres
+
+volumes:
+  pgdb_assessments:

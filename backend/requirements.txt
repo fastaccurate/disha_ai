@@ -1,0 +1,38 @@
+Django==4.2.18
+python-dotenv==1.0.0
+spacy
+
+
+psycopg==3.1.12
+psycopg[binary]==3.1.12
+
+
+celery==5.3.4
+
+
+django-redis==5.4.0
+
+openai>=1.40.0
+PyYAML==6.0.1
+
+litellm==1.61.20
+
+# Text processing and NLP
+textblob==0.18.0.post0  # Required for grammar evaluation in base_grammar.py
+nltk==3.9.1  # Dependency of textblob for natural language processing
+
+# Django REST Framework
+djangorestframework==3.15.2  # https://github.com/encode/django-rest-framework
+django-cors-headers==4.2.0 # https://github.com/adamchainz/django-cors-headers
+
+# Data validation
+pydantic==2.12.3 # Required for LLM response parsing in base_llm_processor.py and openai_service.py
+
+# HTTP requests
+requests==2.32.3  # Required for HTTP requests in base_rest_service.py and vocab.py
+urllib3==2.2.3  # Required for retry logic in base_rest_service.py
+
+# Azure AI services
+azure-ai-textanalytics==5.3.0  # Required for sentiment analysis in sentiment.py
+azure-core==1.32.0  # Required by azure-ai-textanalytics
+
